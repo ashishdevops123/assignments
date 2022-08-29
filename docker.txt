@@ -36,7 +36,77 @@
    
     
 5. List of dockerfile instructions and its Brief Summary?
+FROM RUN  ADD CMD are the components which created the image layers
+
+FROM base image we would like to use
+LABEL  (author:ash) it will provide the necessary metadata
+RUN       it will execute the commands
+COPY     it will copy the file located in the local file system to different location
+ADD      it will able to get the content using urls
+USER     User with which container has to be started 
+WORKDIR  Working Directory
+CMD     Command that will be called when container is created
+ENTRYPOINT   Command that will be called when container is created
+ARG     Build time arguments
+
+
+
+
+
+
+
+
 6. What is the differenet between CMD vs Entrypoint
+
+ONLY CMD IN dockerfile
+
+cmd is are commands which are executed after creating a container , if we specify the command during run 
+then the entire cmd command will be replaced with the command we specified after run.
+in short cmd can be overriden if we only specify the cmd in dockerfile .
+eg:
+FROM CENTOS:focal
+CMD ["yum", "-y", "install", "git"]
+docker build -t onlycmd .
+docker run onlycmd httpd
+ 
+ It will just consider httpd as another command and tries to overwritte the cmd if at all the command is a valid one.
+
+ONLY ENTRYPOINT IS SPECIFIED
+Entrypoint entrypoint is just like the command that will be executed after the container created but if we pass 
+any other command then entrypoint donot get overwrittens rather it will apphends the command that we passed 
+after the run command 
+Not complete command will be replaced instead it will try to execute entry point first after words it 
+will pick the commands that are stated later will be also iterated only if entrypoint is specified in the dockerfile
+
+FROM CENTOS:focal
+ENTRYPOINT ["yum", "-y", "install", "git"]
+docker build -t onlyentry .
+docker run onlyentry git java httpd
+ 
+ in this case if only entrypoint is specified then first it executes the entrypoint command later it will 
+ pick httpd and java and replaces git and executes all the remaining.
+
+
+ BOTH CMD AND ENTRYPOINT SPECIFIED IN DOCKER FILE
+FROM CENTOS:focal
+ENTRYPOINT ["yum", "-y", "install"]
+CMD ["git"]
+
+in this case if we specify any command after run which valid withrespect to the entrypoint then it will 
+iterative with respect to the entrypoint and it will execute the command
+like 
+docker run entryandcmdwitharg    httpd
+then it will install httpd
+
+another case if we did not gave any command after the run statement then it will pick the default one 
+i.e; cmd
+
+in short if we would like to pass command or not passing command then we should use entrypoint and cmd both
+because first it will check for command if not specified to will take cmd.
+
+
+
+
 7. List of 20 docker commands and its use cases with example?
   
        docker image pull httpd  /  docker pull httpd
@@ -58,4 +128,5 @@
        docker rm -f $(docker ps -a -q)   it will delete all the container forcefully in  one go witout stooping
        docker rmi $(docker images -a -q)  it will delete all the images in one go.
        docker commit <containerid> imagename:tag === image creation using the container 
+       docker image build -t <image>:<tag> . === for image building using a docker file.
 
