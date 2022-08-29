@@ -1,0 +1,61 @@
+1. Components of Docker and its Brief Summary
+   DOCKER COMPONENTS:
+   DOCKER ENGINE:
+     Docker is an important component in docker which manges images, api request, networking, volumes.
+   Docker swarm :
+     Docker swarm is a orchestration just like kubernetes which manages the cluster of docker nodes( where docker is installed)
+   Runtime constraints:
+      low level runtime: runc
+      high level runtime: containerd
+
+
+2. What is the differenet between docker pause and unpause?
+    Docker pause generally suspends all the process of the container keeping all the memory intact.
+    Docker unpause generally resumes or unsuspends all the process of the container
+
+
+3. What is the differenet between docker stop and kill?
+       Docker stop will stops the container and deletes all the memory and cache of the container.
+    Docker stop and docker kill both offers the same functionalities i.e., to make sure that container should not work.
+    Docker stop sends a formal signal using SIGTERM which checks that container is not working and after a time gap it will give
+    SIGkill so that it will not work.
+    whereas Docker kill will directly send SIGKILL without any intimation to the container and abruptly the container gets shutdown.
+
+4. What is the differenet between docker exec and attach?
+   Docker container exec is used to enter into the container and execute the commands it can be done by 2 methods
+   docker container exec <containerid> <command>
+   or 
+   docker container exec -it  <containerid> /bin/sh
+   docker container exec -it  <containerid> /bin/bash
+   After exiting out of the container , then also container is working.
+
+   docker attach <containerid> is used to attach to the container which is detached to see the stand input/output
+   and errors at the terminal 
+   dissadvantage is if we attach to a container than it is not possible to keep the container alive after the exit.
+   
+   
+    
+5. List of dockerfile instructions and its Brief Summary?
+6. What is the differenet between CMD vs Entrypoint
+7. List of 20 docker commands and its use cases with example?
+  
+       docker image pull httpd  /  docker pull httpd
+       docker image ls         /  docker images
+       docker image rm httpd  /  docker rmi httpd
+       docker create --name=ash1 httpd  / pulls httpd and tags 
+       docker start ash1   /  starting a container using tag
+       docker stop ash1   /    exiting a container using tag
+       docker restart ash1  /  restarting a container using tag
+       docker pause ash1   /   pauses a container using tag
+       docker unpause ash1  /  unpauses a container using tag
+       docker kill ash1   /  exiting a container using tag
+       docker rm ash1     /  completely removing container using tag if we execute ( docker ps -a command )
+       docker run -d httpd (or) docker container run -d httpd     both commands are same it pulls and runs container in detached mode
+       docker container run -it ubuntu:focal /bin/bash            run the container and enter inside the container
+       docker container exec <containerid> <command>  ======= u can execute command directly without going inside the container
+       docker container exec -it <containerid> <command> /bin/bash  ==== u can get inside the container using the respective shell u use for executing command      
+       docker inspect <containerid>    it will give all the  information about the container using containerid
+       docker rm -f $(docker ps -a -q)   it will delete all the container forcefully in  one go witout stooping
+       docker rmi $(docker images -a -q)  it will delete all the images in one go.
+       docker commit <containerid> imagename:tag === image creation using the container 
+
